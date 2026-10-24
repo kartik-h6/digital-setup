@@ -1,0 +1,236 @@
+/* ==========================================================================
+   TECHSTUDYHUBCORE — Digital Setup
+   styles.css — design tokens, base, components
+   ========================================================================== */
+
+:root {
+    --bg: #020617;
+    --surface: #0f172a;
+    --surface-2: #111827;
+    --cyan: #22d3ee;
+    --indigo: #6366f1;
+    --emerald: #10b981;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --line: rgba(255, 255, 255, 0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Outfit', 'Noto Sans Kannada', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display {
+    font-family: 'Space Grotesk', 'Noto Sans Kannada', sans-serif;
+}
+
+/* --- Backgrounds & surfaces ------------------------------------------------ */
+.bg-grid {
+    background-image:
+        linear-gradient(to right, rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.glass-nav {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+}
+
+.cyber-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cyber-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.cyber-card:hover {
+    border-color: rgba(34, 211, 238, 0.2);
+    box-shadow: 0 10px 40px -10px rgba(34, 211, 238, 0.15);
+    transform: translateY(-4px);
+}
+
+.cyber-card:hover::before { opacity: 1; }
+
+.text-gradient {
+    background: linear-gradient(to right, var(--cyan), var(--indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.flow-line {
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    background-size: 200% 100%;
+    animation: flowMove 3s linear infinite;
+}
+@keyframes flowMove {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+/* --- Reveal on scroll ------------------------------------------------------ */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.show { opacity: 1; transform: translateY(0); }
+
+/* --- Bilingual switching ---------------------------------------------------
+   .lang-en / .lang-kn are ALWAYS inline <span> wrappers placed inside the
+   block element (never on a flex/grid container), so toggling their display
+   between inline and none can never collapse a layout.
+
+   English is the default. When <body> carries .lang-kn-active, Kannada shows.
+   An English span tagged data-no-kn has no Kannada counterpart and stays
+   visible in Kannada mode, so no section is ever rendered blank.            */
+.lang-hidden { display: none !important; }
+.lang-kn { display: none; }
+body.lang-kn-active .lang-en { display: none; }
+body.lang-kn-active .lang-en[data-no-kn] { display: inline; }
+body.lang-kn-active .lang-kn { display: inline; }
+
+/* --- FAQ / details --------------------------------------------------------- */
+details summary::-webkit-details-marker { display: none; }
+details[open] summary .chev { transform: rotate(180deg); }
+
+/* --- Scrollbar ------------------------------------------------------------- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(34, 211, 238, 0.4); }
+
+/* --- Timelines ------------------------------------------------------------- */
+.timeline-line::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 30px;
+    bottom: -30px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--cyan), transparent);
+    opacity: 0.3;
+}
+.timeline-line:last-child::before { display: none; }
+
+.journey-node { transition: all 0.5s ease-in-out; }
+.journey-node.active-step {
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+    background: var(--surface-2);
+}
+
+/* --- Modals ---------------------------------------------------------------- */
+.modal-overlay {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.98);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.modal-overlay.modal-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+body.modal-open, body.mobile-menu-open { overflow: hidden; }
+
+/* --- Mobile nav ------------------------------------------------------------ */
+#mobileMenuToggle.menu-open .hamburger-line:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+#mobileMenuToggle.menu-open .hamburger-line:nth-child(2) { opacity: 0; }
+#mobileMenuToggle.menu-open .hamburger-line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+#mobileNavPanel.panel-open {
+    max-height: 85vh;
+    overflow-y: auto;
+    border-top-color: var(--line);
+    background: rgba(15, 23, 42, 0.98);
+}
+
+/* --- Accessibility --------------------------------------------------------- */
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100000;
+    background: var(--cyan);
+    color: var(--bg);
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 0.5rem 0;
+}
+.skip-link:focus { left: 0; }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* --- Custom cursor (desktop, optional enhancement) ------------------------- */
+.c-dot, .c-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s ease,
+                border-color 0.3s ease;
+}
+.c-dot  { width: 6px; height: 6px; background: var(--cyan); }
+.c-ring { width: 32px; height: 32px; border: 1px solid rgba(34, 211, 238, 0.5); }
+
+.c-ring.hover-state {
+    width: 50px; height: 50px;
+    border-color: var(--emerald);
+    background-color: rgba(16, 185, 129, 0.1);
+    backdrop-filter: blur(2px);
+}
+.c-dot.hover-state { background: var(--emerald); width: 8px; height: 8px; }
+
+/* The normal cursor is NEVER hidden by default. It is hidden only when the
+   JS engine has confirmed a fine pointer AND motion is allowed, by adding
+   .cursor-ready to <html>. */
+html.cursor-ready body { cursor: none; }
+
+/* Touch / coarse pointers: no custom cursor, restore native behaviour */
+@media (pointer: coarse) {
+    .c-dot, .c-ring { display: none !important; }
+    html.cursor-ready body { cursor: auto; }
+}
+
+/* --- Reduced motion -------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    .c-dot, .c-ring { display: none !important; }
+    html.cursor-ready body { cursor: auto; }
+    .flow-line { animation: none; }
+}

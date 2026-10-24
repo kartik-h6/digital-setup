@@ -1,0 +1,39 @@
+/* ==========================================================================
+   responsive.css — layout adjustments across breakpoints
+   ========================================================================== */
+
+/* Mobile: leave room for the fixed bottom CTA bar */
+@media (max-width: 768px) {
+    body { padding-bottom: 76px; }
+}
+
+/* Prevent horizontal scroll from wide decorative elements */
+@media (max-width: 1024px) {
+    .deco-blur { display: none; }
+}
+
+/* Long Kannada strings can run wider than Latin — allow comfortable wrapping */
+.lang-kn { line-height: 1.7; overflow-wrap: anywhere; }
+
+/* Pricing / comparison tables: allow horizontal scroll on small screens */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 640px) {
+    .table-scroll table { min-width: 520px; }
+}
+
+/* Hero type scale tuning */
+@media (max-width: 420px) {
+    .hero-title { font-size: 1.9rem; line-height: 1.15; }
+}
+
+/* Reduce heavy blur cost on low-end devices */
+@media (max-width: 640px) {
+    .deco-glow { filter: blur(70px); opacity: 0.6; }
+}
+
+/* Print: legal pages should print cleanly */
+@media print {
+    nav, footer, .skip-link, .c-dot, .c-ring, .mobile-cta-bar { display: none !important; }
+    body { background: #fff; color: #000; padding: 0; }
+    .cyber-card { border: 1px solid #ccc; }
+}

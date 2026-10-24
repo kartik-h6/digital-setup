@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# The onboarding form and WhatsApp links are external services.
+
+Sitemap: https://digitalsetup.techstudyhubcore.in/sitemap.xml
